@@ -24,21 +24,13 @@ class Board extends React.Component {
   render() {
     return (
       <div>
-        <div className="board-row">
-          {this.renderSquare(0)}
-          {this.renderSquare(1)}
-          {this.renderSquare(2)}
-        </div>
-        <div className="board-row">
-          {this.renderSquare(3)}
-          {this.renderSquare(4)}
-          {this.renderSquare(5)}
-        </div>
-        <div className="board-row">
-          {this.renderSquare(6)}
-          {this.renderSquare(7)}
-          {this.renderSquare(8)}
-        </div>
+        {[...Array(3)].map((_, i) => {
+          return (
+            <div key={i} className="board-row">
+              {[...Array(3)].map((_, j) => this.renderSquare(3 * i + j))}
+            </div>
+          );
+        })}
       </div>
     );
   }
@@ -89,7 +81,7 @@ class Game extends React.Component {
     const current = history[this.state.stepNumber];
     const winner = calculateWinner(current.squares);
 
-    const moves = history.map((step, move) => {
+    let moves = history.map((step, move) => {
       let location = null;
       if (move) {
         step.squares.forEach((el, i) => {
@@ -114,6 +106,13 @@ class Game extends React.Component {
       );
     });
 
+    const reverseMoves = () => {
+      this.setState({
+        history: [...history].reverse(),
+      })
+      this.jumpTo(0)
+    };
+
     let status;
     if (winner) {
       status = "Winner: " + winner;
@@ -132,6 +131,7 @@ class Game extends React.Component {
         <div className="game-info">
           <div>{status}</div>
           <ol>{moves}</ol>
+          <button onClick={reverseMoves}>Reverse!</button>
         </div>
       </div>
     );
