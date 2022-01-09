@@ -5,8 +5,14 @@ import ReactDOM from 'react-dom'
 
 function Square(props) {
   return (
-    <button className="square" onClick={props.onClick}
-      style={{ backgroundColor: props.winnerLocation.includes(props.location) ? "red" : null }}
+    <button
+      className="square"
+      onClick={props.onClick}
+      style={{
+        backgroundColor: props.winnerLocation.includes(props.location)
+          ? "red"
+          : null,
+      }}
     >
       {props.value}
     </button>
@@ -114,8 +120,8 @@ class Game extends React.Component {
     const reverseMoves = () => {
       this.setState({
         history: [...history].reverse(),
-      })
-      this.jumpTo(0)
+      });
+      this.jumpTo(0);
     };
 
     let status;
@@ -164,8 +170,8 @@ function calculateWinner(squares) {
     if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
       return {
         winner: squares[a],
-        location: [a, b, c]
-      }
+        location: [a, b, c],
+      };
     }
   }
   return null;
