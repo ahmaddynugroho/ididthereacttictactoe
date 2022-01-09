@@ -90,7 +90,7 @@ class Game extends React.Component {
   render() {
     const history = this.state.history;
     const current = history[this.state.stepNumber];
-    const winner = calculateWinner(current.squares);
+    const winner = calculateWinner(current.squares, history.length);
 
     let moves = history.map((step, move) => {
       let location = null;
@@ -154,7 +154,7 @@ class Game extends React.Component {
 
 ReactDOM.render(<Game />, document.getElementById("root"));
 
-function calculateWinner(squares) {
+function calculateWinner(squares, historyLength) {
   const lines = [
     [0, 1, 2],
     [3, 4, 5],
@@ -165,6 +165,7 @@ function calculateWinner(squares) {
     [0, 4, 8],
     [2, 4, 6],
   ];
+  const isDraw = !squares.includes(null) && historyLength > 9;
   for (let i = 0; i < lines.length; i++) {
     const [a, b, c] = lines[i];
     if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
@@ -174,5 +175,5 @@ function calculateWinner(squares) {
       };
     }
   }
-  return null;
+  return isDraw ? { winner: "Draw", location: [] } : null;
 }
